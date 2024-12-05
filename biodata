@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Halaman Admin - Pendataan Calon Penerima BLT</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            margin-bottom: 30px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .delete-btn {
+            background: #e74c3c;
+        }
+        .delete-btn:hover {
+            background: #c0392b;
+        }
+        .edit-btn {
+            background: #f39c12;
+            color: white;
+        }
+        .edit-btn:hover {
+            background: #e67e22;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table th,
+        table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        table th {
+            background: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pendataan Calon Penerima BLT</h1>
+
+        <!-- Form Input Data -->
+        <form id="dataForm">
+            <label for="nama">Nama Lengkap:</label>
+            <input type="text" id="nama" name="nama" placeholder="Masukkan nama lengkap" required>
+
+            <label for="nik">NIK (Nomor Induk Kependudukan):</label>
+            <input type="text" id="nik" name="nik" placeholder="Masukkan NIK" required>
+
+            <label for="alamat">Alamat:</label>
+            <input type="text" id="alamat" name="alamat" placeholder="Masukkan alamat lengkap" required>
+
+            <label for="penghasilan">Penghasilan Bulanan:</label>
+            <select id="penghasilan" name="penghasilan" required>
+                <option value="">Pilih penghasilan</option>
+                <option value="> Rp2.000.000">> Rp2.000.000</option>
+                <option value="Rp1.500.001 – Rp2.000.000">Rp1.500.001 – Rp2.000.000</option>
+                <option value="Rp1.000.001 – Rp1.500.000">Rp1.000.001 – Rp1.500.000</option>
+                <option value="Rp500.001 – Rp1.000.000">Rp500.001 – Rp1.000.000</option>
+                <option value="Rp0 – Rp500.000">Rp0 – Rp500.000</option>
+            </select>
+
+            <label for="tanggungan">Jumlah Tanggungan:</label>
+            <input type="number" id="tanggungan" name="tanggungan" placeholder="Masukkan jumlah tanggungan" required>
+
+            <label for="program">Keikutsertaan Program:</label>
+            <input type="text" id="program" name="program" placeholder="Masukkan nama program (opsional)">
+
+            <label for="kondisiRumah">Kondisi Rumah:</label>
+            <select id="kondisiRumah" name="kondisiRumah">
+                <option value="">Pilih kondisi rumah</option>
+                <option value="Baik">Baik</option>
+                <option value="Sedang">Sedang</option>
+                <option value="Buruk">Buruk</option>
+            </select>
+
+            <label for="statusRumah">Status Rumah:</label>
+            <select id="statusRumah" name="statusRumah">
+                <option value="">Pilih status rumah</option>
+                <option value="Milik Sendiri">Milik Sendiri</option>
+                <option value="Sewa">Sewa</option>
+                <option value="Menumpang">Menumpang</option>
+            </select>
+
+            <label for="pekerjaan">Pekerjaan:</label>
+            <input type="text" id="pekerjaan" name="pekerjaan" placeholder="Masukkan pekerjaan">
+
+            <button type="button" onclick="tambahData()">Tambah Data</button>
+        </form>
+
+        <!-- Tabel Data -->
+        <h2>Daftar Calon Penerima BLT</h2>
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>NIK</th>
+                    <th>Alamat</th>
+                    <th>Penghasilan</th>
+                    <th>Tanggungan</th>
+                    <th>Program</th>
+                    <th>Kondisi Rumah</th>
+                    <th>Status Rumah</th>
+                    <th>Pekerjaan</th>
+                    <th>Status Kelayakan</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data akan ditambahkan di sini -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        let nomor = 1;
+
+        function tambahData() {
+            const nama = document.getElementById('nama').value;
+            const nik = document.getElementById('nik').value;
+            const alamat = document.getElementById('alamat').value;
+            const penghasilan = document.getElementById('penghasilan').value;
+            const tanggungan = document.getElementById('tanggungan').value;
+            const program = document.getElementById('program').value;
+            const kondisiRumah = document.getElementById('kondisiRumah').value;
+            const statusRumah = document.getElementById('statusRumah').value;
+            const pekerjaan = document.getElementById('pekerjaan').value;
+
+            if (!nama || !nik || !alamat || !penghasilan || !tanggungan) {
+                alert('Harap isi semua data wajib!');
+                return;
+            }
+
+            let layak = 'Tidak Layak';
+            if (
+                penghasilan === "Rp0 – Rp500.000" ||
+                (penghasilan === "Rp500.001 – Rp1.000.000" && tanggungan > 2) ||
+                kondisiRumah === "Buruk" ||
+                statusRumah === "Menumpang"
+            ) {
+                layak = 'Layak';
+            }
+
+            const table = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
+            const row = table.insertRow();
+            row.innerHTML = `
+                <td>${nomor++}</td>
+                <td>${nama}</td>
+                <td>${nik}</td>
+                <td>${alamat}</td>
+                <td>${penghasilan}</td>
+                <td>${tanggungan}</td>
+                <td>${program || '-'}</td>
+                <td>${kondisiRumah || '-'}</td>
+                <td>${statusRumah || '-'}</td>
+                <td>${pekerjaan || '-'}</td>
+                <td>${layak}</td>
+                <td>
+                    <button class="edit-btn" onclick="editData(this)">Edit</button>
+                    <button class="delete-btn" onclick="hapusData(this)">Hapus</button>
+                </td>
+            `;
+
+            document.getElementById('dataForm').reset();
+        }
+
+        function hapusData(button) {
+            const row = button.parentElement.parentElement;
+            row.remove();
+            const table = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
+            let rows = table.rows;
+            nomor = 1;
+            for (let i = 0; i < rows.length; i++) {
+                rows[i].cells[0].innerText = nomor++;
+            }
+        }
+
+        function editData(button) {
+            const row = button.parentElement.parentElement;
+            const cells = row.getElementsByTagName('td');
+
+            document.getElementById('nama').value = cells[1].innerText;
+            document.getElementById('nik').value = cells[2].innerText;
+            document.getElementById('alamat').value = cells[3].innerText;
+            document.getElementById('penghasilan').value = cells[4].innerText;
+            document.getElementById('tanggungan').value = cells[5].innerText;
+            document.getElementById('program').value = cells[6].innerText === '-' ? '' : cells[6].innerText;
+            document.getElementById('kondisiRumah').value = cells[7].innerText === '-' ? '' : cells[7].innerText;
+            document.getElementById('statusRumah').value = cells[8].innerText === '-' ? '' : cells[8].innerText;
+            document.getElementById('pekerjaan').value = cells[9].innerText === '-' ? '' : cells[9].innerText;
+
+            // Remove the row to be updated
+            row.remove();
+            nomor--;
+        }
+    </script>
+</body>
+</html>
